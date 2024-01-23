@@ -1,0 +1,819 @@
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    transition: background-color 0.3s, color 0.3s;
+    scroll-padding-top: 70px
+}
+body.darkmode {
+    --background-color: #25292e;
+    --text-color: white;
+}
+html {
+    scroll-behavior: smooth; /* Enables smooth scrolling for anchor links */
+  }
+  
+  
+
+.image {
+    border-radius: 10%;
+    width: 350px;
+    height: 450px;
+    
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: linear-gradient(to right, var(--nav-gradient-start), var(--nav-gradient-end));
+    padding: 10px 0;
+    z-index: 1000;
+    justify-content: space-between;
+    margin-right: 10px;
+
+}
+.brand-name {
+    color: var(--nav-text-color); /* California Gold color for the brand name */
+    padding: 14px 20px;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+}
+.nav-links a {
+    color: var(--nav-link-color); /* Black color for other navigation links */
+    padding: 14px 20px;
+    text-decoration: none;
+    text-align: center;
+    margin-right: 10px;
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.nav-links a {
+    margin-right: 10px;
+}
+
+.nav-links a:last-child {
+    margin-right: 10px;
+}
+.nav-links a:hover {
+    color: #fff; /* Change color on hover */
+    background-color: rgba(253, 181, 21, 0.2); /* Slight highlight effect */
+    border-radius: 4px; /* Rounded corners for the highlight */
+}
+
+.project-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 50px 0;
+}
+
+.project-item {
+    width: calc(33.33% - 40px);
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--background-color);
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+    transform: scale(0.95); /* Initially slightly smaller */
+    border: 6px solid #003262;
+    transition: transform 0.3s ease-in-out, border-color 0.3s ease-in-out, filter 0.3s ease-in-out, opacity 0.3s ease-in-out; 
+}
+  .project-item:hover {
+    transform: scale(1.05); /* Scale up slightly on hover */
+    filter: blur(0);
+    border-color: transparent !important;
+}
+html[data-theme="light"] .project-item {
+    border-color: #003262; /* Purple border in light mode */
+}
+
+/* Dark Mode */
+html[data-theme="dark"] .project-item {
+    border-color: #FDB515; /* Yellow border in dark mode */
+}
+
+.project-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+}
+/* Dark Mode */
+[data-theme="dark"] .project-item::before {
+    background: rgba(0, 0, 0, 0.9); /* Further increase alpha for a much darker overlay */
+    opacity: 1; /* Visible initially */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+html[data-theme="dark"] .project-item p {
+    color: white; /* White text */
+}
+
+html[data-theme="dark"] .project-item:hover::before {
+    opacity: 0;
+}
+
+/* Light Mode */
+html[data-theme="light"] .project-item::before {
+    background: rgba(255, 255, 255, 0.7); /* Light overlay */
+    opacity: 1; /* Visible initially */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+html[data-theme="light"] .project-item p {
+    color: black; /* Black text */
+}
+
+html[data-theme="light"] .project-item:hover::before {
+    opacity: 0; /* Hide overlay on hover */
+}
+
+.project-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.3s ease-in-out, filter 0.3 ease-in-out;
+    filter: blur(2px);
+    opacity: 0.7;
+}
+.project-item:hover p {
+    opacity: 0; /* Hide description on hover */
+}
+.project-item:hover img {
+    filter: blur(0); /* Remove blur on hover */
+    opacity: 1; /* Image fully clear on hover */
+}
+
+.project-item p {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for exact centering */
+    color: var(--text-color);
+    font-size: 1.9em;
+    font-weight: bold;
+    margin: 0; /* Remove default margins */
+    transition: opacity 0.3s ease-in-out; /* Smooth transition for text opacity */
+    opacity: 1; /* Fully visible initially */
+    z-index: 2;
+}
+
+  .project-item .project-description {
+    padding: 15px; /* Padding inside the project description */
+    text-align: center; /* Centered text */
+  }
+  
+  /* Add this to ensure the text adapts to light/dark mode */
+  .project-item .project-description p {
+    color: var(--text-color); /* Ensures text color adapts to theme */
+  }
+
+  #Projects {
+  text-align: center; /* Centering the title and the projects */
+  margin: 0 auto; /* Ensures the section is centered */
+  max-width: 1200px; /* Limits the maximum width of the section */
+}
+
+  
+/* Night Mode Styles */
+.night-mode {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.night-mode .navigation {
+    background-color: #262626;
+}
+
+.night-mode .nav-links a {
+    color: #ddd;
+}
+
+.night-mode .project-item p {
+    color: #ddd;
+}
+
+
+.night-mode #Resume {
+    background-color: #333;
+    color: white;
+}
+.resume-header {
+    display: flex;
+    justify-content: space-between; /* This spreads the items to opposite ends */
+    align-items: center;
+}
+#About {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    text-align: center;
+}
+#About .about-text h1 {
+    text-align: center; /* Center the text */
+    margin-bottom: 35px; /* Adjust the space below the h1 as needed */
+}
+
+.view-resume {
+    margin-right: 10px;
+}
+.resume-section {
+    flex-direction: column;
+    display: flex; /* Establishes a flex container */
+    justify-content: center; /* Aligns children (the span and button) to the right */
+    align-items: center; /* Centers children vertically */
+    /* Add any necessary margin or padding here */
+}
+
+.resume-view-button {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.resume-view-button:hover {
+    transform: scale(1.2);
+}
+.about-text {
+    flex-grow: 1; /* Allows the text to grow and fill the space */
+    margin: 0 20px; /* Adds padding between the image and text */
+    font-size: 21px; /* Adjust as needed */
+}
+.about-image {
+    /* Style your image as needed */
+    width: 350px; /* Example width, adjust as needed */
+    height: auto; /* Keep the aspect ratio */
+    border-radius: 10%;
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+}
+.about-text h3 {
+    text-align: center;
+}
+.about-text-and-button {
+    display: flex;
+    flex-direction: column; /* Stack text and button vertically */
+    align-items: flex-start; /* Align items to the start of the flex container */
+}
+
+.resume-view-button svg {
+    width: 50px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
+    fill: var(--icon-color); /* SVG fill matches text color */
+    transition: transform 0.2s ease-in-out; /* Smooth transition for hover effect */
+
+}
+
+.resume-view-button:hover svg {
+    transform: scale(1.2); /* Icon grows when hovered */
+}
+
+.resume-view-button .button-text {
+    display: block; /* Ensures the text is properly aligned */
+}
+
+@media (max-width: 900px) {
+    .project-item {
+      width: calc(50% - 40px);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .project-item {
+      width: calc(100% - 40px);
+    }
+  }
+  
+
+
+
+.mode-switch-button{
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+g#moon{
+	opacity: 0;
+	transition: .5s opacity ease-in;
+}
+
+g#sun{
+	opacity: 1;
+	transition: .5s opacity ease-in;
+}
+
+.light-mode g#moon{
+	opacity: 1;
+}
+
+.light-mode g#sun{
+	opacity: 0;
+}
+
+.light-mode{
+	background-color: black;
+	color: #0c0c0c;
+}
+
+.light-mode h2, .light-mode h3, .light-mode h4{
+	color: #0c0c0c;
+}
+
+.light-mode a{
+	color: #0c0c0c;
+	text-decoration-color: #fec200;
+	background-color: #fec20020;
+	padding: 0em .2em;
+	border-radius: 3px;
+	transition: .2s all ease-in;
+}
+
+.light-mode a:hover{
+	background-color: #fec200;
+}
+
+#blogContent{
+	transition: .2s all ease-in;
+}
+.mode-toggle {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mode-toggle svg {
+    fill: #FFF; /* Default icon color */
+    width: 24px; /* Icon size */
+    height: 24px;
+}
+
+/* Rest of your CSS */
+.night-mode g#moon {
+    opacity: 1;
+}
+
+.night-mode g#sun {
+    opacity: 0;
+}
+.theme_icon{
+    color: var(--icon-color);
+    cursor: pointer;
+    transition: transform 0.5s;
+    /* Align with nav items */
+    margin-right: 10px;
+    align-self: center;
+    font-size: 2em;
+
+}
+
+.theme_icon:hover{
+    color: #c8c8c8;
+}
+
+.flip{
+    transform: rotate(360deg) !important;
+}
+html[data-theme="dark"] {
+    --background-color: #25292e; /* Dark background */
+    --text-color: white; /* Light text */
+    /* Other dark mode specific styles... */
+    .project-item p {
+        color: #fff;
+    }
+}
+
+/* Styles for light mode */
+html[data-theme="light"] {
+    --background-color: #e8e8e8; /* Light background */
+    --text-color: black; /* Dark text */
+    /* Other light mode specific styles... */
+    
+}
+
+/* Apply the variables */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+.navigation, .nav-links {
+    display: flex;
+    align-items: center; /* This aligns items vertically center */
+}
+hr {
+    border: 0; /* Removes default border */
+    height: 3px; /* Thickness of the line */
+    background-color: #333; /* Color of the line */
+    margin-top: 50px; /* Space above the line */
+    margin-bottom: 50px; /* Space below the line */
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+.section-divider {
+    border: none;
+    height: 2px;
+    margin: 40px 10;
+    background-color: var(--section-divider-color); /* Use the variable */
+}
+.night-mode .section-divider {
+    background-color: #ddd;
+}
+
+
+
+
+
+
+
+/* Add hover effect */
+.content-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Larger shadow on hover */
+}
+
+/* Dark Mode Styles */
+.night-mode .content-item {
+    background-color: #333; /* Dark background for the items in dark mode */
+    color: #ddd; /* Light text for the items in dark mode */
+}
+
+.night-mode .content-list::before {
+    background-color: #ddd; /* Light line in dark mode */
+}
+
+
+
+
+
+.contact-section {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 20px;
+    margin-top: 20px; /* Adjust as needed */
+    text-align: center;
+}
+
+.contact-section h2 {
+    margin-bottom: 15px;
+}
+
+#contact-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px; /* Adjust as needed */
+    margin: auto;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Adjust as needed */
+}
+
+.input-group input[type="text"],
+.input-group input[type="email"],
+#contact-form input[type="text"],
+#contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    background-color: #333; /* For dark mode */
+    color: #fff; /* For dark mode */
+    border-radius: 5px;
+}
+
+#contact-form textarea {
+    height: 150px; /* Adjust as needed */
+    resize: vertical;
+}
+
+.send-message {
+    background: linear-gradient(to right, #003262, #FDB515); /* Gradient from blue to gold */
+    color: black;
+    font-weight: bold;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.send-message:hover {
+    background-color: darken(var(--button-bg-color), 10%); /* Adjust the percentage as needed */
+}
+
+/* Adapting to Dark Mode */
+.night-mode .input-group input[type="text"],
+.night-mode .input-group input[type="email"],
+.night-mode #contact-form input[type="text"],
+.night-mode #contact-form textarea {
+    background-color: #262626;
+    color: #ddd;
+}
+
+.night-mode .send-message {
+    background-color: #218838;
+}
+:root {
+    --input-bg-color: #FFFFFF; /* Light input background */
+    --input-text-color: #000000; /* Dark input text */
+    --input-border-color: #CCCCCC; /* Light input border */
+    --button-bg-color: #28a745; /* Button background */
+    --button-text-color: #FFFFFF; /* Button text color */
+    /* ... other variables ... */
+    --icon-color-light: #003262; /* Icon color for light mode */
+    --icon-color-dark: #FDB515; /* Icon color for dark mode */
+    --section-divider-color: #003262; /* Blue for light mode */
+    --nav-gradient-start: #003262; /* Start color of the gradient (blue) */
+    --nav-gradient-end: #FDB515; /* End color of the gradient (gold) */
+    --nav-text-color: #FDB515; /* Text color for the brand name */
+    --nav-link-color: #003262; /* Text color for navigation links */
+    --back-to-top-gradient-start-light: #003262; /* Start color for light mode */
+    --back-to-top-gradient-end-light: #FDB515; /* End color for light mode */
+    --back-to-top-gradient-start-dark: #FDB515; /* Start color for dark mode */
+    --back-to-top-gradient-end-dark: #003262; /* End color for dark mode */
+    --container-bg-color-light: #ffffff;
+    --container-bg-color-dark: #333333;
+    --image-border-color-light: #003262;
+    --image-border-color-dark: #FDB515;
+
+  }
+
+  /* Dark mode variables */
+  [data-theme="dark"] {
+    --input-bg-color: #FFFFFF; /* White input background for dark mode */
+    --input-text-color: #000000; /* Dark input text for dark mode */
+    --input-border-color: #555555; /* Dark input border for dark mode */
+    --button-bg-color: #218838; /* Darker button background for dark mode */
+    --button-text-color: #FFFFFF; /* White button text color for dark mode */
+    /* ... other variables ... */
+    --icon-color: #fff; /* Icon color for dark mode */
+    --icon-color: var(--icon-color-dark);
+    --section-divider-color: #FDB515; /* Gold for dark mode */
+    --icon-color: #FDB515; /* Change icon color in dark mode */
+    --nav-gradient-start: #FDB515; /* Start color of the gradient (gold) */
+    --nav-gradient-end: #003262; /* End color of the gradient (blue) */
+    --nav-text-color: #003262; /* Text color for the brand name */
+    --nav-link-color: #FDB515; /* Text color for navigation links */
+    --icon-color: var(--icon-color-dark); /* Set the icon color for dark mode */
+    --back-to-top-gradient-start: var(--back-to-top-gradient-start-dark); /* Apply dark mode start color */
+    --back-to-top-gradient-end: var(--back-to-top-gradient-end-dark); /* Apply dark mode end color */
+    --container-bg-color: var(--container-bg-color-dark);
+    --image-border-color: var(--image-border-color-dark);
+
+
+  }
+  
+  [data-theme="light"] {
+    --icon-color: var(--icon-color-light);
+    background-color: #f0f0f0;
+    color: #333;
+    --back-to-top-gradient-start: var(--back-to-top-gradient-start-light); /* Apply light mode start color */
+    --back-to-top-gradient-end: var(--back-to-top-gradient-end-light); /* Apply light mode end color */
+    --container-bg-color: var(--container-bg-color-light);
+    --image-border-color: var(--image-border-color-light);
+
+  }
+  
+  /* Input styles */
+  .input-group input[type="text"],
+  .input-group input[type="email"],
+  #contact-form input[type="text"],
+  #contact-form textarea {
+    background-color: var(--input-bg-color);
+    color: var(--input-text-color);
+    border: 1px solid var(--input-border-color);
+    --icon-color: var(--icon-color-light); /* Set the icon color for light mode */
+  }
+    
+  #fullScreenImage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: url('/images/IMG_1023.jpeg') no-repeat center center; /* Update this line */
+    background-size: cover;
+    z-index: -1;
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+
+/* Your existing CSS */
+/* ... */
+#Home {
+    background: url('/images/IMG_1023.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: rgb(12, 0, 237);
+}
+
+/*Background Animation*/
+
+#typewriter {
+    font-size: 2.5em; /* Adjust the size as you like */
+    overflow: hidden; /* Hide the overflowing content */
+    display: block; /* Use block to control the width and centering */
+    margin: auto; /* Center the container */
+    text-align: center; /* Center the text inside the container */
+    max-width: 600px; /* Maximum width of the typewriter text */
+    line-height: 1.5; /* Adjust line spacing if needed */
+    word-wrap: break-word; /* Ensures words wrap to next line */
+  }
+  
+  .sentence {
+    display: inline; /* Keeps sentence inline */
+  }
+  
+  .cursor {
+    display: inline-block;
+    width: 0.1em;
+    margin-left: 0.1em;
+    background-color: currentColor; /* Cursor color matches the text */
+    animation: blink 1s infinite; /* Adjust the timing as needed */
+  }
+    
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+    
+
+#Contact h1 {
+    text-align: center;
+}
+#back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(to right, var(--back-to-top-gradient-start), var(--back-to-top-gradient-end)); /* Use the variables */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+    z-index: 9999; /* Make sure it's above other items */
+}
+
+#back-to-top:hover {
+    background-color: #555; /* Slightly darker on hover */
+}
+#Education {
+    text-align: center;
+    padding: 20px;
+}
+
+.course-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.course-item {
+    width: 250px;
+    padding: 20px;
+    margin: 10px;
+    background-color: var(--container-bg-color);
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.course-item:hover {
+    transform: scale(1.05);
+}
+
+.course-item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.course-image-container {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--image-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.course-item img {
+    width: auto;
+    height: 100%;
+    background: white;
+}
+
+.course-code {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.course-title {
+    font-size: 16px;
+    margin-bottom: 0;
+}.contact-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px; /* Space between icons */
+    margin-top: 20px; /* Space above the icons */
+}
+
+.contact-icon {
+    font-size: 45px; /* Size of the icons */
+    color: var(--icon-color); /* Use the variable for color */
+    transition: color 0.3s;
+}
+
+.contact-icon:hover {
+    color: #0077B5; /* Highlight color for hover (e.g., LinkedIn blue) */
+}
+
+#Contact {
+    padding-bottom: 100px;
+}
+/* Target the specific image by its src attribute or give it a unique class */
+.course-item img[src="/images/cs61a.png"], /* or .cs61a-logo if you add this class to the img tag */
+.course-item img.cs61a-logo { 
+    background: white;
+    display: block; /* Removes any inline spacing */
+    border-radius: 50%; /* Makes it circular */
+    padding: 10px; /* Adds space around the image, adjust as needed */
+    box-sizing: border-box; /* Ensures padding is included in width/height */
+    width: 100%; /* Adjust as needed */
+    height: auto;
+    object-fit: cover; /* Ensures the image covers the whole area */
+}
+.project-content {
+    text-align: center; /* Centers the text */
+    max-width: 800px; /* Adjust this value as needed */
+    margin: auto; /* Centers the div */
+    padding: 20px; /* Adds some padding around the content */
+}
+
+.project-content img {
+    border-radius: 7%;
+    margin-top: 100px;
+    max-width: 100%; /* Makes the image responsive */
+    height: auto; /* Maintains the aspect ratio */
+    max-height: 400px; /* Adjust the size of the image */
+    margin-bottom: 20px; /* Adds some space between the image and the text */
+}
+.project-name {
+    margin-top: 20px;
+}
+.project-content p {
+    font-size: 1.3em;
+    text-align: justify;
+    font-family: Arial, sans-serif;
+}
