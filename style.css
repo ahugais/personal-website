@@ -820,7 +820,7 @@ hr {
 .project-content p {
     font-size: 1.3em;
     text-align: justify;
-    font-family: Arial, sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 
@@ -831,7 +831,7 @@ hr {
 html, body {
     margin: 0;
     height: 100%;
-    font-family: "Raleway";
+    font-family: 'Source Sans Pro', sans-serif;
 }
 .top-nav {
   display: flex;
