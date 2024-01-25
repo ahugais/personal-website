@@ -7,15 +7,10 @@ body {
     transition: background-color 0.3s, color 0.3s;
     scroll-padding-top: 70px
 }
-body.darkmode {
-    --background-color: #25292e;
-    --text-color: white;
-}
+
 html {
     scroll-behavior: smooth; /* Enables smooth scrolling for anchor links */
   }
-  
-  
 
 .image {
     border-radius: 10%;
@@ -43,23 +38,25 @@ html {
     padding: 14px 20px;
     text-decoration: none;
     text-align: center;
-    display: inline-block;
+    display: block;
+    margin-right: auto;
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Smooth transition for hover effect */
+
 }
 .nav-links a {
-    color: var(--nav-link-color); /* Black color for other navigation links */
+    color: var(--nav-link-color); /* Blue color for other navigation links */
     padding: 14px 20px;
     text-decoration: none;
-    text-align: center;
-    margin-right: 10px;
     transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Smooth transition for hover effect */
 }
-
-.nav-links a {
-    margin-right: 10px;
+.nav-links {
+    display: flex; /* Keeps links horizontal on larger screens */
+    align-items: center; /* Center items vertically */
 }
 
 .nav-links a:last-child {
     margin-right: 10px;
+    border-bottom: none;
 }
 .nav-links a:hover {
     color: #fff; /* Change color on hover */
@@ -574,6 +571,10 @@ hr {
     --container-bg-color-dark: #333333;
     --image-border-color-light: #003262;
     --image-border-color-dark: #FDB515;
+    --icon-color-light: #003262; /* Icon color for light mode */
+    --icon-color-dark: #FDB515; /* Icon color for dark mode */
+    --menu-bg-color-light: #e8e8e8; /* Menu background color for light mode */
+    --menu-bg-color-dark: #25292e; /* Menu background color for dark mode */
 
   }
 
@@ -598,6 +599,8 @@ hr {
     --back-to-top-gradient-end: var(--back-to-top-gradient-end-dark); /* Apply dark mode end color */
     --container-bg-color: var(--container-bg-color-dark);
     --image-border-color: var(--image-border-color-dark);
+    --icon-color: var(--icon-color-dark); /* Using the dark mode icon color */
+    --menu-bg-color: var(--menu-bg-color-dark); /* Using the dark mode menu background color */
 
 
   }
@@ -610,6 +613,8 @@ hr {
     --back-to-top-gradient-end: var(--back-to-top-gradient-end-light); /* Apply light mode end color */
     --container-bg-color: var(--container-bg-color-light);
     --image-border-color: var(--image-border-color-light);
+    --icon-color: var(--icon-color-light); /* Using the light mode icon color */
+    --menu-bg-color: var(--menu-bg-color-light); /* Using the light mode menu background color */
 
   }
   
@@ -816,4 +821,174 @@ hr {
     font-size: 1.3em;
     text-align: justify;
     font-family: Arial, sans-serif;
+}
+
+
+
+
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: "Raleway";
+}
+.top-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to left, #f46b45, #eea849);
+  color: #FFF;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+.hamburger-toggle {
+    display: none; /* Hide the actual checkbox */
+}
+
+/* Ensure the nav links are displayed correctly on desktop */
+
+
+/* Media query for mobile styles */
+@media screen and (max-width: 768px) {
+    .section-divider {
+        width: 80%; /* Adjust the width for mobile */
+        margin-left: 10%; /* Adjust if needed for proper alignment */
+        margin-right: 10%; /* Adjust if needed for proper alignment */
+    }
+    #About {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center-align the items */
+    }
+
+    .about-image {
+        margin-top: 10px;
+        width: 85%; /* Adjust the width as needed */
+        height: auto; /* Maintain aspect ratio */
+        margin-bottom: 20px; /* Space between the image and text */
+    }
+
+    .about-text {
+        font-size: 18px; /* Adjust the size as needed for readability */
+        line-height: 1.4; /* Adjust the line height for better readability */
+        text-align: center; /* For better readability */
+    }
+
+    .resume-section {
+        text-align: center; /* Center-align the resume section */
+        margin-top: 20px; /* Add some space above the resume section */
+    }
+
+    /* Adjust button size if needed */
+    .resume-view-button {
+        font-size: 0.8em; /* Smaller button text */
+        padding: 5px 10px; /* Adjust padding */
+    }
+
+    #Home {
+        margin-bottom: 150px;
+        background: url('/images/IMG_1023.jpeg') no-repeat center center scroll;
+        background-size: cover; /* Adjust the background size to contain for better visibility */
+        height: 50vh; /* Optional: Adjust the height for mobile devices */
+        background-position: top center; /* Optional: Adjust the position to show the important part of the image */
+    }
+    #typewriter {
+        font-size: 1.5em; /* Smaller font size for mobile devices */
+        max-width: 300px;
+        padding: 0 10px;
+        line-height: 1.2;
+        animation: blink 0.8 infinite;
+        font-weight: normal;
+    }
+    .navigation {
+        height: 70px;
+        position: fixed;
+        top: 0; /* Align to the top of the viewport */
+        left: 0; /* Align to the left of the viewport */
+        width: 100%; /* Ensure it spans the full width of the screen */
+        z-index: 1000; /* Ensure it stays on top of other content */
+    
+    }
+    .brand-name {
+        position: absolute;
+        left: 10px; /* Adjust as needed for spacing */
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 14px 20px; /* Maintain padding or adjust as necessary for mobile layout */
+        text-align: left; /* Aligns text to the left */
+        margin-right: 0; /* Reset the margin for mobile */
+    }
+
+    .hamburger-icon {
+        display: flex; /* Show the hamburger icon */
+        position: absolute;
+        right: 10px; /* Place it on the far right */
+        top: 50%;
+        transform: translateY(-50%);
+        padding-right: 20px;
+        z-index: 10;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 25px;
+        width: 30px;
+        cursor: pointer;
+    }
+    .hamburger-icon span {
+        display: block;
+        height: 3px;
+        width: 30px;
+        background-color: var(--icon-color); /* Adjust color as needed */
+        transition: all 0.3s ease;
+
+    }
+    
+    /* Ensure the checkbox is still hidden */
+    .hamburger-toggle {
+        display: none;
+    }
+
+    /* Toggle the display of nav-links */
+    .nav-links {
+        display: none; /* Hide the links by default */
+        position: fixed;
+        top: 70px; /* Adjust based on your navbar's height */
+        right: 0;
+        align-items: center;
+        left: 0; /* Stretch across the screen */
+        flex-direction: column;
+        background-color: var(--menu-bg-color); /* Background color of dropdown */
+        width: 100%; /* Full width */
+        justify-content: flex-start; /* Align items to the start of the flex container */
+        padding-top: 20px; /* Space at the top of the menu */
+    }
+    .nav-links a {
+        border-bottom: 1px solid #FDB515;
+
+    }
+
+    /* Display nav-links when hamburger is toggled */
+    #hamburger-toggle:checked ~ .nav-links {
+        display: flex; /* Show the nav-links as a flex container */
+    }
+
+    /* Style for the links within the nav-links when the menu is open */
+    #hamburger-toggle:checked ~ .nav-links a {
+        display: block; /* Display links as block elements to fill the width of the menu */
+        width: 100%; /* Full width */
+        text-align: center; /* Center the text */
+    }
+
+    #hamburger-toggle:checked ~ .hamburger-icon span:nth-of-type(1) {
+        transform: translateY(8px) rotate(45deg); /* Adjust translateY if needed */
+    }
+    
+    #hamburger-toggle:checked ~ .hamburger-icon span:nth-of-type(2) {
+        opacity: 0;
+    }
+    
+    #hamburger-toggle:checked ~ .hamburger-icon span:nth-of-type(3) {
+        transform: translateY(-8px) rotate(-45deg); /* Adjust translateY if needed */
+    }
 }

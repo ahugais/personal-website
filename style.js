@@ -22,10 +22,9 @@ $(document).ready(function(){
         updateThemeIcon();
     });
 
-    // Rest of your code...
 });
 
-    // Function to update the theme icon based on the current theme
+    // Update the theme icon based on the current theme
     function updateThemeIcon() {
         let current_theme = $("html").attr("data-theme");
         if(current_theme === "dark"){
@@ -51,21 +50,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        let target = document.querySelector(this.getAttribute('href'));
-        let navHeight = document.querySelector('.navigation').offsetHeight; // Get the dynamic height of the nav bar
-
-        window.scroll({
-            top: target.offsetTop - navHeight, // Offset the top by the height of the nav bar
-            left: 0,
-            behavior: 'smooth'
-        });
-    });
-});
-
   document.addEventListener("scroll", function() {
     var scrollPosition = window.pageYOffset;
     var maxScrollValue = window.innerHeight; // Maximum scroll value for the full effect
@@ -73,7 +57,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
     var image = document.getElementById('fullScreenImage');
 
-    // Adjust these factors to control the rate of fade and movement
     var fadeOutRate = 1; // Increase for faster fade out
     var moveUpRate = 50; // Increase for faster movement up
 
@@ -88,7 +71,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
 });
 const sentences = [
-    "I'm Ahmed Hugais.",
+    "Hey there! I'm Ahmed Hugais.",
     "I love coding and building cool stuff.",
     "Check out my projects below."
   ];
@@ -175,12 +158,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     if (currentTheme) {
         document.documentElement.setAttribute('data-theme', currentTheme);
     } else {
-        document.documentElement.setAttribute('data-theme', 'light'); // Set your default theme here
+        document.documentElement.setAttribute('data-theme', 'light'); // Set the default theme here
     }
 });
 
 
-// Check for saved 'darkMode' in localStorage
+// Check for saved darkMode in localStorage
 let darkMode = localStorage.getItem('darkMode'); 
 
 const enableDarkMode = () => {
@@ -208,7 +191,7 @@ themeIcon.addEventListener('click', () => {
   // get their darkMode setting
   darkMode = localStorage.getItem('darkMode'); 
   
-  // if it not current enabled, enable it
+  // if its not currently enabled, enable it
   if (darkMode !== 'enabled') {
     enableDarkMode();
   // if it has been enabled, turn it off  
@@ -216,3 +199,4 @@ themeIcon.addEventListener('click', () => {
     disableDarkMode(); 
   }
 });
+
