@@ -200,3 +200,10 @@ themeIcon.addEventListener('click', () => {
   }
 });
 
+function toggleTheme() {
+  var body = document.body;
+  var currentTheme = body.getAttribute('data-theme');
+  body.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+}
+
+// You can call toggleTheme() function on a button click or another event

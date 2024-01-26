@@ -18,6 +18,30 @@ html {
     height: 450px;
     
 }
+.theme-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease;
+}
+/* Light Mode by default */
+#lightImage {
+    opacity: 1;
+}
+#darkImage {
+    opacity: 0;
+}
+
+/* Dark Mode */
+[data-theme="dark"] #lightImage {
+    opacity: 0;
+}
+[data-theme="dark"] #darkImage {
+    opacity: 1;
+}
 
 .navigation {
     display: flex;
@@ -575,6 +599,8 @@ hr {
     --icon-color-dark: #FDB515; /* Icon color for dark mode */
     --menu-bg-color-light: #e8e8e8; /* Menu background color for light mode */
     --menu-bg-color-dark: #25292e; /* Menu background color for dark mode */
+    --typewriter-text-color-light: #000000; /* Black for light mode */
+    --typewriter-text-color-dark: #FFFFFF; /* White for dark mode */
 
   }
 
@@ -601,8 +627,7 @@ hr {
     --image-border-color: var(--image-border-color-dark);
     --icon-color: var(--icon-color-dark); /* Using the dark mode icon color */
     --menu-bg-color: var(--menu-bg-color-dark); /* Using the dark mode menu background color */
-
-
+    --typewriter-text-color: var(--typewriter-text-color-dark);
   }
   
   [data-theme="light"] {
@@ -615,6 +640,7 @@ hr {
     --image-border-color: var(--image-border-color-light);
     --icon-color: var(--icon-color-light); /* Using the light mode icon color */
     --menu-bg-color: var(--menu-bg-color-light); /* Using the light mode menu background color */
+    --typewriter-text-color: var(--typewriter-text-color-light);
 
   }
   
@@ -635,7 +661,7 @@ hr {
     left: 0;
     width: 100%;
     height: 100vh;
-    background: url('/images/IMG_1023.jpeg') no-repeat center center; /* Update this line */
+    background: url('/images/IMG_1023.jpeg') no-repeat center center;
     background-size: cover;
     z-index: -1;
     transition: opacity 1s ease, transform 1s ease;
@@ -645,7 +671,8 @@ hr {
 /* Your existing CSS */
 /* ... */
 #Home {
-    background: url('/images/IMG_1023.jpeg') no-repeat center center fixed;
+    overflow: hidden;
+    background: none;
     background-size: cover;
     height: 100vh;
     position: relative;
@@ -659,14 +686,16 @@ hr {
 /*Background Animation*/
 
 #typewriter {
-    font-size: 2.5em; /* Adjust the size as you like */
+    margin-left: 900px;
+    position: relative;
+    font-size: 3em; /* Adjust the size as you like */
     overflow: hidden; /* Hide the overflowing content */
     display: block; /* Use block to control the width and centering */
-    margin: auto; /* Center the container */
     text-align: center; /* Center the text inside the container */
     max-width: 600px; /* Maximum width of the typewriter text */
     line-height: 1.5; /* Adjust line spacing if needed */
     word-wrap: break-word; /* Ensures words wrap to next line */
+    color: var(--typewriter-text-color);
   }
   
   .sentence {
