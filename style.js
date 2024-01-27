@@ -206,4 +206,10 @@ function toggleTheme() {
   body.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
 }
 
-// You can call toggleTheme() function on a button click or another event
+function toggleHamburger() {
+  var checkbox = document.getElementById('hamburger-toggle');
+  if (checkbox.checked) {
+      checkbox.checked = false;
+  }
+}
+

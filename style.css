@@ -661,7 +661,6 @@ hr {
     left: 0;
     width: 100%;
     height: 100vh;
-    background: url('/images/IMG_1023.jpeg') no-repeat center center;
     background-size: cover;
     z-index: -1;
     transition: opacity 1s ease, transform 1s ease;
@@ -686,7 +685,7 @@ hr {
 /*Background Animation*/
 
 #typewriter {
-    margin-left: 900px;
+    margin-left: 750px;
     position: relative;
     font-size: 3em; /* Adjust the size as you like */
     overflow: hidden; /* Hide the overflowing content */
@@ -917,8 +916,7 @@ html, body {
     }
 
     #Home {
-        margin-bottom: 150px;
-        background: url('/images/IMG_1023.jpeg') no-repeat center center scroll;
+        margin-bottom: 120px;
         background-size: cover; /* Adjust the background size to contain for better visibility */
         height: 50vh; /* Optional: Adjust the height for mobile devices */
         background-position: top center; /* Optional: Adjust the position to show the important part of the image */
@@ -930,6 +928,10 @@ html, body {
         line-height: 1.2;
         animation: blink 0.8 infinite;
         font-weight: normal;
+        margin-left: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        position: left;
     }
     .navigation {
         height: 70px;
@@ -970,7 +972,7 @@ html, body {
         width: 30px;
         background-color: var(--icon-color); /* Adjust color as needed */
         transition: all 0.3s ease;
-
+\
     }
     
     /* Ensure the checkbox is still hidden */
