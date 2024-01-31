@@ -58,7 +58,7 @@ html {
 
 }
 .brand-name {
-    color: var(--nav-text-color); /* California Gold color for the brand name */
+    color: var(--nav-text-color); /* Cal Gold color for the brand name */
     padding: 14px 20px;
     text-decoration: none;
     text-align: center;
@@ -68,7 +68,7 @@ html {
 
 }
 .nav-links a {
-    color: var(--nav-link-color); /* Blue color for other navigation links */
+    color: var(--nav-link-color); /*  Blue color for other navigation links */
     padding: 14px 20px;
     text-decoration: none;
     transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Smooth transition for hover effect */
@@ -115,12 +115,12 @@ html {
     border-color: transparent !important;
 }
 html[data-theme="light"] .project-item {
-    border-color: #003262; /* Purple border in light mode */
+    border-color: #003262; /* Cal Blue border in light mode */
 }
 
 /* Dark Mode */
 html[data-theme="dark"] .project-item {
-    border-color: #FDB515; /* Yellow border in dark mode */
+    border-color: #FDB515; /* Cal Gold border in dark mode */
 }
 
 .project-item::before {
@@ -146,13 +146,7 @@ html[data-theme="dark"] .project-item {
     transition: opacity 0.3s ease-in-out;
 }
 
-html[data-theme="dark"] .project-item p {
-    color: white; /* White text */
-}
 
-html[data-theme="dark"] .project-item:hover::before {
-    opacity: 0;
-}
 
 /* Light Mode */
 html[data-theme="light"] .project-item::before {
@@ -205,52 +199,23 @@ html[data-theme="light"] .project-item:hover::before {
     z-index: 2;
 }
 
-  .project-item .project-description {
+.project-item .project-description {
     padding: 15px; /* Padding inside the project description */
     text-align: center; /* Centered text */
-  }
+}
   
-  /* Add this to ensure the text adapts to light/dark mode */
-  .project-item .project-description p {
+  /* Adapts to light/dark mode */
+.project-item .project-description p {
     color: var(--text-color); /* Ensures text color adapts to theme */
-  }
+}
 
-  #Projects {
+#Projects {
   text-align: center; /* Centering the title and the projects */
   margin: 0 auto; /* Ensures the section is centered */
   max-width: 1200px; /* Limits the maximum width of the section */
 }
 
-  
-/* Night Mode Styles */
-.night-mode {
-    background-color: #1a1a1a;
-    color: white;
-}
-
-.night-mode .navigation {
-    background-color: #262626;
-}
-
-.night-mode .nav-links a {
-    color: #ddd;
-}
-
-.night-mode .project-item p {
-    color: #ddd;
-}
-
-
-.night-mode #Resume {
-    background-color: #333;
-    color: white;
-}
-.resume-header {
-    display: flex;
-    justify-content: space-between; /* This spreads the items to opposite ends */
-    align-items: center;
-}
-#About {
+  #About {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -262,9 +227,6 @@ html[data-theme="light"] .project-item:hover::before {
     margin-bottom: 35px; /* Adjust the space below the h1 as needed */
 }
 
-.view-resume {
-    margin-right: 10px;
-}
 .resume-section {
     flex-direction: column;
     display: flex; /* Establishes a flex container */
@@ -341,55 +303,8 @@ html[data-theme="light"] .project-item:hover::before {
 
 
 
-.mode-switch-button{
-	width: 24px;
-	height: 24px;
-	cursor: pointer;
-}
 
-g#moon{
-	opacity: 0;
-	transition: .5s opacity ease-in;
-}
 
-g#sun{
-	opacity: 1;
-	transition: .5s opacity ease-in;
-}
-
-.light-mode g#moon{
-	opacity: 1;
-}
-
-.light-mode g#sun{
-	opacity: 0;
-}
-
-.light-mode{
-	background-color: black;
-	color: #0c0c0c;
-}
-
-.light-mode h2, .light-mode h3, .light-mode h4{
-	color: #0c0c0c;
-}
-
-.light-mode a{
-	color: #0c0c0c;
-	text-decoration-color: #fec200;
-	background-color: #fec20020;
-	padding: 0em .2em;
-	border-radius: 3px;
-	transition: .2s all ease-in;
-}
-
-.light-mode a:hover{
-	background-color: #fec200;
-}
-
-#blogContent{
-	transition: .2s all ease-in;
-}
 .mode-toggle {
     cursor: pointer;
     background: transparent;
@@ -400,20 +315,6 @@ g#sun{
     justify-content: center;
 }
 
-.mode-toggle svg {
-    fill: #FFF; /* Default icon color */
-    width: 24px; /* Icon size */
-    height: 24px;
-}
-
-/* Rest of your CSS */
-.night-mode g#moon {
-    opacity: 1;
-}
-
-.night-mode g#sun {
-    opacity: 0;
-}
 .theme_icon{
     color: var(--icon-color);
     cursor: pointer;
