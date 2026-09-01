@@ -1,215 +1,151 @@
-$(document).ready(function(){
-    // Check if a theme is saved in localStorage and apply it
-    var savedTheme = localStorage.getItem('theme');
-    if(savedTheme){
-        $("html").attr("data-theme", savedTheme);
-        updateThemeIcon();
+// ==========================================================================
+// Ahmed Hugais — Portfolio (vanilla JS, no jQuery/Bootstrap)
+// ==========================================================================
+
+// Re-land on the #hash target once images have finished loading — on a cold
+// cache, the browser can jump to a hash before below-the-fold images have
+// pushed content into its final position, landing one section too early.
+window.addEventListener('load', () => {
+    if (location.hash) {
+        const target = document.getElementById(location.hash.slice(1));
+        if (target) target.scrollIntoView();
     }
-
-    $(".theme_icon").on('click', function(){
-        // Toggle the flip animation
-        $(".theme_icon").toggleClass("flip");
-
-        // Toggle theme between light and dark
-        var currentTheme = $("html").attr("data-theme");
-        var newTheme = (currentTheme === "dark") ? "light" : "dark";
-        $("html").attr("data-theme", newTheme);
-
-        // Save the new theme preference in localStorage
-        localStorage.setItem('theme', newTheme);
-
-        // Update the icon to reflect the change
-        updateThemeIcon();
-    });
-
 });
 
-    // Update the theme icon based on the current theme
-    function updateThemeIcon() {
-        let current_theme = $("html").attr("data-theme");
-        if(current_theme === "dark"){
-            $(".theme_icon").removeClass("fa-moon").addClass("fa-sun");
-        } else {
-            $(".theme_icon").removeClass("fa-sun").addClass("fa-moon");
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* ---------- Theme (light/dark) ---------- */
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            themeToggle.classList.add('flip');
+            const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            setTheme(next);
+            localStorage.setItem('theme', next);
+            setTimeout(() => themeToggle.classList.remove('flip'), 500);
+            if (hamburgerToggle) hamburgerToggle.checked = false;
+        });
+    }
+
+    function setTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        if (themeToggle) {
+            themeToggle.classList.toggle('fa-moon', theme === 'light');
+            themeToggle.classList.toggle('fa-sun', theme === 'dark');
         }
     }
 
+    /* ---------- Close mobile menu after tapping a link ---------- */
+    const hamburgerToggle = document.getElementById('hamburger-toggle');
+    if (hamburgerToggle) {
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => { hamburgerToggle.checked = false; });
+        });
+    }
 
-// Smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        let target = document.querySelector(this.getAttribute('href'));
-        let navHeight = document.querySelector('.navigation').offsetHeight; // Get the dynamic height of the nav bar
+    /* ---------- Typewriter ---------- */
+    const sentences = [
+        "I build things that solve real problems.",
+        "UC Berkeley CS grad, ready for what's next.",
+        "Currently open to new opportunities."
+    ];
+    const sentenceEl = document.getElementById('sentence');
+    const speedType = 55;
+    const speedErase = 28;
+    const holdTime = 1600;
+    let sIndex = 0, cIndex = 0;
 
-        window.scroll({
-            top: target.offsetTop - navHeight, // Offset the top by the height of the nav bar
-            left: 0,
-            behavior: 'smooth'
+    if (sentenceEl) typeWriter();
+
+    function typeWriter() {
+        const current = sentences[sIndex];
+        if (cIndex < current.length) {
+            sentenceEl.textContent += current.charAt(cIndex);
+            cIndex++;
+            setTimeout(typeWriter, speedType);
+        } else {
+            setTimeout(eraseWriter, holdTime);
+        }
+    }
+    function eraseWriter() {
+        const current = sentenceEl.textContent;
+        if (current.length > 0) {
+            sentenceEl.textContent = current.slice(0, -1);
+            setTimeout(eraseWriter, speedErase);
+        } else {
+            sIndex = (sIndex + 1) % sentences.length;
+            cIndex = 0;
+            setTimeout(typeWriter, speedType);
+        }
+    }
+
+    /* ---------- Scroll reveal ---------- */
+    const revealTargets = document.querySelectorAll('.reveal, .reveal-stagger');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                if (entry.target.classList.contains('reveal-stagger')) {
+                    Array.from(entry.target.children).forEach((child, i) => {
+                        child.style.setProperty('--stagger-i', i);
+                    });
+                }
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    revealTargets.forEach(el => observer.observe(el));
+
+    /* ---------- Back to top ---------- */
+    const backToTop = document.getElementById('back-to-top');
+    if (backToTop) {
+        window.addEventListener('scroll', () => {
+            backToTop.classList.toggle('visible', window.scrollY > 400);
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    /* ---------- Project filter ---------- */
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectItems = document.querySelectorAll('.project-item');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+            projectItems.forEach(item => {
+                const tags = item.dataset.tags || '';
+                const show = filter === 'all' || tags.split(' ').includes(filter);
+                item.classList.toggle('filtered-out', !show);
+            });
         });
     });
-});
 
-  document.addEventListener("scroll", function() {
-    var scrollPosition = window.pageYOffset;
-    var maxScrollValue = window.innerHeight; // Maximum scroll value for the full effect
-    var scrollFraction = scrollPosition / maxScrollValue;
-
-    var image = document.getElementById('fullScreenImage');
-
-    var fadeOutRate = 1; // Increase for faster fade out
-    var moveUpRate = 50; // Increase for faster movement up
-
-    // Set opacity and transform based on scroll
-    image.style.opacity = Math.max(1 - fadeOutRate * scrollFraction, 0);
-    image.style.transform = 'translateY(-' + scrollFraction * moveUpRate + 'px)';
-
-    // Reset style when scrolled back to top
-    if (scrollPosition === 0) {
-        image.style.opacity = 1;
-        image.style.transform = 'translateY(0px)';
+    /* ---------- Draggable course scroller (if it ever overflows) ---------- */
+    const courseContainer = document.querySelector('.course-container');
+    if (courseContainer) {
+        let isDown = false, startX, scrollLeft;
+        courseContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - courseContainer.offsetLeft;
+            scrollLeft = courseContainer.scrollLeft;
+        });
+        ['mouseleave', 'mouseup'].forEach(evt =>
+            courseContainer.addEventListener(evt, () => { isDown = false; })
+        );
+        courseContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - courseContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            courseContainer.scrollLeft = scrollLeft - walk;
+        });
     }
+
 });
-const sentences = [
-    "Hey there! I'm Ahmed Hugais.",
-    "I love coding and building cool stuff.",
-    "Check out my projects below."
-  ];
-  let currentSentence = 0;
-  let currentCharacter = 0;
-  let html = '';
-  const speedForward = 90; // Typing speed in milliseconds
-  const speedWait = 1700; // Wait time before starting to type next sentence
-  
-  function typeWriter() {
-    if (currentCharacter < sentences[currentSentence].length) {
-      html += sentences[currentSentence].charAt(currentCharacter);
-      document.getElementById('sentence').innerHTML = html;
-      currentCharacter++;
-      setTimeout(typeWriter, speedForward);
-    } else {
-      setTimeout(erase, speedWait);
-    }
-  }
-  
-  function erase() {
-    if (currentCharacter > 0) {
-      html = html.substring(0, html.length - 1);
-      document.getElementById('sentence').innerHTML = html;
-      currentCharacter--;
-      setTimeout(erase, speedForward / 2);
-    } else {
-      currentSentence++;
-      if (currentSentence >= sentences.length) currentSentence = 0;
-      html = ''; // Reset the html content
-      setTimeout(typeWriter, speedForward);
-    }
-  }
-  
-  // Start the typewriter effect
-  typeWriter();
-  
-  document.addEventListener('DOMContentLoaded', (event) => {
-    const backToTopButton = document.getElementById('back-to-top');
-  
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 20) {
-            backToTopButton.style.display = 'block';
-        } else {
-            backToTopButton.style.display = 'none';
-        }
-    });
-
-    backToTopButton.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const courseSlide = document.querySelector('#class-course'); // Ensure it's targeting the right class
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    courseSlide.addEventListener('mousedown', (e) => {
-        isDown = true;
-        startX = e.pageX - courseSlide.offsetLeft;
-        scrollLeft = courseSlide.scrollLeft;
-    });
-
-    courseSlide.addEventListener('mouseleave', () => {
-        isDown = false;
-    });
-
-    courseSlide.addEventListener('mouseup', () => {
-        isDown = false;
-    });
-
-    courseSlide.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - courseSlide.offsetLeft;
-        const walk = (x - startX) * 3; // Scroll-fast
-        courseSlide.scrollLeft = scrollLeft - walk;
-    });
-});
-document.addEventListener('DOMContentLoaded', (event) => {
-    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-    if (currentTheme) {
-        document.documentElement.setAttribute('data-theme', currentTheme);
-    } else {
-        document.documentElement.setAttribute('data-theme', 'light'); // Set the default theme here
-    }
-});
-
-
-// Check for saved darkMode in localStorage
-let darkMode = localStorage.getItem('darkMode'); 
-
-const enableDarkMode = () => {
-  // Add the class to the body
-  document.body.classList.add('darkmode');
-  // Update darkMode in localStorage
-  localStorage.setItem('darkMode', 'enabled');
-}
-
-const disableDarkMode = () => {
-  // Remove the class from the body
-  document.body.classList.remove('darkmode');
-  // Update darkMode in localStorage 
-  localStorage.setItem('darkMode', null);
-}
- 
-// If the user already visited and enabled darkMode
-// start things off with it on
-if (darkMode === 'enabled') {
-  enableDarkMode();
-}
-
-// When someone clicks the button
-themeIcon.addEventListener('click', () => {
-  // get their darkMode setting
-  darkMode = localStorage.getItem('darkMode'); 
-  
-  // if its not currently enabled, enable it
-  if (darkMode !== 'enabled') {
-    enableDarkMode();
-  // if it has been enabled, turn it off  
-  } else {  
-    disableDarkMode(); 
-  }
-});
-
-function toggleTheme() {
-  var body = document.body;
-  var currentTheme = body.getAttribute('data-theme');
-  body.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
-}
-
-function toggleHamburger() {
-  var checkbox = document.getElementById('hamburger-toggle');
-  if (checkbox.checked) {
-      checkbox.checked = false;
-  }
-}
-
