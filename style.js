@@ -127,6 +127,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    /* ---------- Analytics events (GA4) ----------
+       Selector-based, not per-project: adding a new .project-item or
+       .course-item (by copying an existing one, same as the rest of the
+       site) gets tracked automatically. No extra wiring needed. */
+    function trackEvent(name, params) {
+        if (typeof gtag === 'function') gtag('event', name, params || {});
+    }
+
+    document.querySelectorAll('.project-item a').forEach(link => {
+        link.addEventListener('click', () => {
+            const title = link.querySelector('.project-title');
+            trackEvent('project_click', { project_name: title ? title.textContent : link.href });
+        });
+    });
+
+    document.querySelectorAll('.course-item a').forEach(link => {
+        link.addEventListener('click', () => {
+            const code = link.querySelector('.course-code');
+            trackEvent('course_click', { course_code: code ? code.textContent : link.href });
+        });
+    });
+
+    const resumeBtn = document.querySelector('.resume-view-button');
+    if (resumeBtn) {
+        resumeBtn.addEventListener('click', () => trackEvent('resume_view'));
+    }
+
+    document.querySelectorAll('.contact-icon').forEach(link => {
+        link.addEventListener('click', () => {
+            trackEvent('contact_click', { contact_method: link.getAttribute('aria-label') || link.href });
+        });
+    });
+
     /* ---------- Draggable course scroller (if it ever overflows) ---------- */
     const courseContainer = document.querySelector('.course-container');
     if (courseContainer) {

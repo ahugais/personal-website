@@ -81,6 +81,16 @@ h1, h2, h3 {
 
 a { color: inherit; }
 
+.inline-link {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--cal-gold);
+    text-underline-offset: 3px;
+    transition: color 0.2s var(--ease);
+}
+.inline-link:hover { color: var(--cal-gold); }
+
 section {
     max-width: 1160px;
     margin: 0 auto;
@@ -641,7 +651,7 @@ html[data-theme="dark"] .project-item { border-color: var(--cal-gold); }
 }
 
 .course-item {
-    width: 230px;
+    width: 270px;
     padding: 26px 20px;
     background: var(--card-bg);
     border: 2px solid var(--cal-blue);
@@ -700,6 +710,14 @@ html[data-theme="dark"] .course-item { border-color: var(--cal-gold); }
     font-size: 0.9rem;
     color: var(--text-muted);
     margin: 0;
+}
+
+.course-desc {
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+    opacity: 0.85;
+    margin: 10px 0 0;
 }
 
 /* ---------- Contact ---------- */
