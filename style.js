@@ -32,11 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setTheme(theme) {
+        // Icon swap is pure CSS (html[data-theme] selectors) — nothing to do here.
         root.setAttribute('data-theme', theme);
-        if (themeToggle) {
-            themeToggle.classList.toggle('fa-moon', theme === 'light');
-            themeToggle.classList.toggle('fa-sun', theme === 'dark');
-        }
     }
 
     /* ---------- Close mobile menu after tapping a link ---------- */

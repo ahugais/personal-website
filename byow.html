@@ -11,7 +11,6 @@
     </script>
 
     <link rel="icon" type="image/x-icon" href="favcon.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
@@ -33,13 +32,16 @@
             <a href="index.html#Projects">Projects</a>
             <a href="index.html#Education">Education</a>
             <a href="index.html#Contact">Contact</a>
-            <i class="fas fa-moon theme-toggle" id="theme-toggle" title="Toggle light / dark mode"></i>
+            <span class="theme-toggle" id="theme-toggle" title="Toggle light / dark mode">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+            </span>
         </div>
         <label for="hamburger-toggle" class="hamburger-icon"><span></span><span></span><span></span></label>
     </nav>
 
     <div class="project-page">
-        <a href="index.html#Projects" class="back-link"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+        <a href="index.html#Projects" class="back-link"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Back to Projects</a>
         <p class="project-page-tags"><span class="project-tag">Java</span><span class="project-tag">Procedural Gen</span></p>
         <h1>Build Your Own World</h1>
         <img src="images/brogue_textbased_example.png" alt="BYOW Project">
@@ -50,7 +52,7 @@ Throughout 2023, we harnessed the power of Java and the StdDraw library to bring
 Collaborating with Farhan was not only a rewarding journey filled with learning and challenges but also an opportunity that allowed me to practice teamwork and collaboration skills. Our shared passion for pushing the boundaries of what we could achieve together demonstrated the significant advantages of partnership in tackling complex projects and fostering innovation.</p>
     </div>
 
-    <button id="back-to-top" title="Back to top"><i class="fas fa-arrow-up"></i></button>
+    <button id="back-to-top" title="Back to top"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
     <script src="style.js"></script>
 </body>

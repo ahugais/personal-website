@@ -241,10 +241,23 @@ section {
     justify-content: center;
     margin-left: 10px;
     color: var(--icon-color);
-    font-size: 1.05rem;
     transition: transform var(--t-theme) var(--ease), background-color var(--t-fast);
 }
 .theme-toggle:hover { background: var(--border); }
+.theme-toggle svg { width: 18px; height: 18px; }
+.theme-toggle .icon-sun { display: none; }
+html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+
+/* Self-contained icons (replaced Font Awesome — one less external CDN that
+   can stall the page if it's slow or blocked on someone's network) */
+.icon-inline {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: -0.125em;
+    flex-shrink: 0;
+}
 .theme-toggle.flip { transform: rotate(360deg); }
 
 .hamburger-toggle { display: none; }
