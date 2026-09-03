@@ -219,8 +219,6 @@ section {
     background: linear-gradient(to right, rgba(0, 50, 98, 0.16), rgba(253, 181, 21, 0.16)), var(--nav-bg);
     backdrop-filter: blur(14px) saturate(160%);
     -webkit-backdrop-filter: blur(14px) saturate(160%);
-    border-bottom: 3px solid transparent;
-    border-image: linear-gradient(to right, var(--cal-blue), var(--cal-gold)) 1;
     z-index: 1000;
     /* Isolates the nav onto its own GPU layer so its blur doesn't have to be
        recomputed in lockstep with the hero photo scaling behind it (that
@@ -229,6 +227,18 @@ section {
     transform: translateZ(0);
     will-change: transform;
     box-sizing: border-box;
+}
+/* A plain background gradient on a pseudo-element instead of border-image —
+   border-image rendering alongside backdrop-filter is a known source of the
+   exact kind of flicker this nav was showing. */
+.navigation::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--cal-blue), var(--cal-gold));
 }
 
 .brand-name {
@@ -659,7 +669,7 @@ html[data-theme="dark"] #darkImage { opacity: 1; }
     box-shadow: var(--shadow-sm);
     position: relative;
     text-align: left;
-    transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), border-color 0.2s var(--ease);
+    transition: transform 0.12s var(--ease), box-shadow 0.12s var(--ease), border-color 0.12s var(--ease);
     perspective: 800px;
 }
 html[data-theme="dark"] .project-item { border-color: var(--cal-gold); }
@@ -668,7 +678,7 @@ html[data-theme="dark"] .project-item { border-color: var(--cal-gold); }
 }
 @media (hover: hover) and (pointer: fine) {
     .project-item:hover {
-        transform: translateY(-8px);
+        transform: translateY(-5px);
         box-shadow: var(--shadow-md);
     }
 }
@@ -684,7 +694,7 @@ html[data-theme="dark"] .project-item { border-color: var(--cal-gold); }
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.2s var(--ease);
+    transition: transform 0.12s var(--ease);
 }
 @media (hover: hover) and (pointer: fine) {
     .project-item:hover img { transform: scale(1.07); }
@@ -737,12 +747,12 @@ html[data-theme="dark"] .project-item { border-color: var(--cal-gold); }
     border: 2px solid var(--cal-blue);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
-    transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), border-color 0.2s var(--ease);
+    transition: transform 0.12s var(--ease), box-shadow 0.12s var(--ease), border-color 0.12s var(--ease);
 }
 html[data-theme="dark"] .course-item { border-color: var(--cal-gold); }
 @media (hover: hover) and (pointer: fine) {
     .course-item:hover {
-        transform: translateY(-6px);
+        transform: translateY(-4px);
         box-shadow: var(--shadow-md);
     }
 }
