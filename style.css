@@ -1,9 +1,14 @@
 /* ==========================================================================
    Ahmed Hugais — Portfolio
    Berkeley Blue (#003262) / Berkeley Gold (#FDB515), light + dark themes.
-   ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+   Google Fonts is loaded from each page's <head> (non-blocking, with a
+   noscript fallback), not with @import here — @import forces the browser
+   to fetch and wait on it before rendering anything else, which is exactly
+   what stalls the page on slow or restricted connections. The fonts below
+   already have real fallbacks, so the page looks right even if the font
+   request is slow or fails entirely.
+   ========================================================================== */
 
 /* ---------- Design tokens ---------- */
 :root {
