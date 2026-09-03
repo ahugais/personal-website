@@ -222,6 +222,12 @@ section {
     border-bottom: 3px solid transparent;
     border-image: linear-gradient(to right, var(--cal-blue), var(--cal-gold)) 1;
     z-index: 1000;
+    /* Isolates the nav onto its own GPU layer so its blur doesn't have to be
+       recomputed in lockstep with the hero photo scaling behind it (that
+       combination — backdrop-filter over actively-animating content — is
+       what shows up as stutter/flicker in a fixed header). */
+    transform: translateZ(0);
+    will-change: transform;
     box-sizing: border-box;
 }
 
@@ -308,6 +314,7 @@ html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
     object-fit: cover;
     transition: opacity var(--t-theme) var(--ease);
     animation: heroZoomIn 2.2s cubic-bezier(0.19, 1, 0.22, 1) both;
+    will-change: transform;
 }
 @keyframes heroZoomIn {
     from { transform: scale(1.12); }
