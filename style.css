@@ -24,6 +24,13 @@
 
     --nav-height: 68px;
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Timing: fast for UI feedback (buttons, cards, tags); theme for the
+       light/dark switch (icon, body colors, hero crossfade move together);
+       reveal for content fading in on scroll. */
+    --t-fast: 0.2s;
+    --t-theme: 0.4s;
+    --t-reveal: 0.45s;
 }
 
 html[data-theme="light"] {
@@ -71,7 +78,7 @@ body {
     margin: 0;
     font-family: var(--font-body);
     overflow-x: hidden;
-    transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+    transition: background-color var(--t-theme) var(--ease), color var(--t-theme) var(--ease);
 }
 
 h1, h2, h3 {
@@ -127,7 +134,7 @@ section {
 .reveal {
     opacity: 0;
     transform: translateY(28px);
-    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+    transition: opacity var(--t-reveal) var(--ease), transform var(--t-reveal) var(--ease);
 }
 .reveal.in-view {
     opacity: 1;
@@ -230,7 +237,7 @@ section {
     margin-left: 10px;
     color: var(--icon-color);
     font-size: 1.05rem;
-    transition: transform 0.2s var(--ease), background-color 0.2s;
+    transition: transform var(--t-theme) var(--ease), background-color var(--t-fast);
 }
 .theme-toggle:hover { background: var(--border); }
 .theme-toggle.flip { transform: rotate(360deg); }
@@ -256,7 +263,7 @@ section {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: opacity 0.2s var(--ease);
+    transition: opacity var(--t-theme) var(--ease);
 }
 #lightImage { opacity: 1; }
 #darkImage { opacity: 0; }
@@ -331,7 +338,9 @@ html[data-theme="dark"] #darkImage { opacity: 1; }
     border: 1.5px solid transparent;
     transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), background-color 0.2s, color 0.2s;
 }
-.btn:hover { transform: translateY(-3px); }
+@media (hover: hover) and (pointer: fine) {
+    .btn:hover { transform: translateY(-3px); }
+}
 
 .btn-primary {
     background: var(--cal-gold);
@@ -382,9 +391,11 @@ html[data-theme="dark"] #darkImage { opacity: 1; }
     box-shadow: var(--shadow-lg);
     transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
-.about-image:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: var(--shadow-lg), 0 0 0 4px var(--card-bg), 0 0 0 7px var(--cal-blue), 0 0 0 10px var(--cal-gold);
+@media (hover: hover) and (pointer: fine) {
+    .about-image:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: var(--shadow-lg), 0 0 0 4px var(--card-bg), 0 0 0 7px var(--cal-blue), 0 0 0 10px var(--cal-gold);
+    }
 }
 
 .about-text { flex: 1; min-width: 0; }
@@ -438,9 +449,11 @@ html[data-theme="dark"] #darkImage { opacity: 1; }
     box-shadow: 0 10px 26px rgba(253, 181, 21, 0.35);
     transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
-.resume-view-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 32px rgba(253, 181, 21, 0.45);
+@media (hover: hover) and (pointer: fine) {
+    .resume-view-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 32px rgba(253, 181, 21, 0.45);
+    }
 }
 .resume-view-button svg { width: 20px; height: 20px; fill: currentColor; }
 
@@ -474,9 +487,11 @@ html[data-theme="dark"] #darkImage { opacity: 1; }
     box-shadow: var(--shadow-sm);
     transition: transform 0.2s var(--ease), border-color 0.2s;
 }
-.skill-tag:hover {
-    transform: translateY(-3px);
-    border-color: var(--accent);
+@media (hover: hover) and (pointer: fine) {
+    .skill-tag:hover {
+        transform: translateY(-3px);
+        border-color: var(--accent);
+    }
 }
 
 /* ---------- Experience ---------- */
@@ -590,9 +605,11 @@ html[data-theme="dark"] .project-item { border-color: var(--cal-gold); }
 .project-item.filtered-out {
     display: none;
 }
-.project-item:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-md);
+@media (hover: hover) and (pointer: fine) {
+    .project-item:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-md);
+    }
 }
 .project-item a { text-decoration: none; color: inherit; display: block; }
 
@@ -608,7 +625,9 @@ html[data-theme="dark"] .project-item { border-color: var(--cal-gold); }
     display: block;
     transition: transform 0.2s var(--ease);
 }
-.project-item:hover img { transform: scale(1.07); }
+@media (hover: hover) and (pointer: fine) {
+    .project-item:hover img { transform: scale(1.07); }
+}
 
 .project-info { padding: 18px 20px 22px; }
 .project-title {
@@ -660,9 +679,11 @@ html[data-theme="dark"] .project-item { border-color: var(--cal-gold); }
     transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), border-color 0.2s var(--ease);
 }
 html[data-theme="dark"] .course-item { border-color: var(--cal-gold); }
-.course-item:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-md);
+@media (hover: hover) and (pointer: fine) {
+    .course-item:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-md);
+    }
 }
 .course-item a { text-decoration: none; color: inherit; }
 
@@ -743,10 +764,12 @@ html[data-theme="dark"] .course-item { border-color: var(--cal-gold); }
     color: var(--icon-color);
     transition: transform 0.2s var(--ease), background-color 0.2s, color 0.2s;
 }
-.contact-icon:hover {
-    transform: translateY(-5px);
-    background: var(--accent);
-    color: var(--bg);
+@media (hover: hover) and (pointer: fine) {
+    .contact-icon:hover {
+        transform: translateY(-5px);
+        background: var(--accent);
+        color: var(--bg);
+    }
 }
 
 /* ---------- Divider ---------- */
@@ -798,7 +821,9 @@ html[data-theme="dark"] .course-item { border-color: var(--cal-gold); }
     display: block;
     transition: transform 0.2s var(--ease);
 }
-.project-page img:hover { transform: scale(1.015); }
+@media (hover: hover) and (pointer: fine) {
+    .project-page img:hover { transform: scale(1.015); }
+}
 .project-page p.project-body {
     font-size: 1.08rem;
     line-height: 1.85;
@@ -847,7 +872,10 @@ html[data-theme="dark"] .course-item { border-color: var(--cal-gold); }
     z-index: 999;
     transition: transform 0.2s var(--ease), opacity 0.2s;
 }
-#back-to-top:hover { transform: translateY(-4px); }
+@media (hover: hover) and (pointer: fine) {
+    #back-to-top:hover { transform: translateY(-4px); }
+}
+#back-to-top:active { transform: translateY(-1px) scale(0.94); }
 #back-to-top.visible { display: flex; }
 
 /* ==========================================================================
