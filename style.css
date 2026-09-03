@@ -2,13 +2,28 @@
    Ahmed Hugais — Portfolio
    Berkeley Blue (#003262) / Berkeley Gold (#FDB515), light + dark themes.
 
-   Google Fonts is loaded from each page's <head> (non-blocking, with a
-   noscript fallback), not with @import here — @import forces the browser
-   to fetch and wait on it before rendering anything else, which is exactly
-   what stalls the page on slow or restricted connections. The fonts below
-   already have real fallbacks, so the page looks right even if the font
-   request is slow or fails entirely.
+   Fonts are self-hosted (fonts/inter.woff2, fonts/space-grotesk.woff2)
+   instead of pulled from Google Fonts. That's one less external connection
+   (DNS + TLS handshake) the browser has to make before it can render text —
+   on a high-latency or unreliable connection, every extra external origin
+   adds real, sometimes multi-second, delay. Both are variable fonts, so one
+   file each covers every weight used on the site.
    ========================================================================== */
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 800;
+    font-display: swap;
+    src: url('fonts/inter.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Space Grotesk';
+    font-style: normal;
+    font-weight: 500 700;
+    font-display: swap;
+    src: url('fonts/space-grotesk.woff2') format('woff2');
+}
 
 /* ---------- Design tokens ---------- */
 :root {
