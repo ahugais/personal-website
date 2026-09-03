@@ -14,14 +14,17 @@
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400 800;
-    font-display: swap;
+    /* optional (not swap): fonts are self-hosted and tiny, so they're ready
+       almost immediately — this avoids the visible text reflow/flash that
+       "swap" causes when the fallback font gets replaced mid-render. */
+    font-display: optional;
     src: url('fonts/inter.woff2') format('woff2');
 }
 @font-face {
     font-family: 'Space Grotesk';
     font-style: normal;
     font-weight: 500 700;
-    font-display: swap;
+    font-display: optional;
     src: url('fonts/space-grotesk.woff2') format('woff2');
 }
 
@@ -50,7 +53,7 @@
        reveal for content fading in on scroll. */
     --t-fast: 0.2s;
     --t-theme: 0.4s;
-    --t-reveal: 0.45s;
+    --t-reveal: 0.8s;
 }
 
 html[data-theme="light"] {
@@ -150,18 +153,25 @@ section {
     margin: 0 0 46px;
 }
 
-/* ---------- Scroll reveal ---------- */
+/* ---------- Scroll reveal ----------
+   Duration/easing for the reveal transition is set inline by JS (see
+   style.js), not here — cards like .project-item declare their own
+   `transition` shorthand for hover/press feedback, and a second `transition`
+   shorthand from a class like .reveal would silently replace it rather than
+   merge with it (that's how the CSS cascade treats shorthands). Setting it
+   inline at reveal-time, then clearing it once the animation finishes, lets
+   the reveal run at its own slower speed without touching each card's fast
+   hover speed afterwards. */
 .reveal {
     opacity: 0;
-    transform: translateY(28px);
-    transition: opacity var(--t-reveal) var(--ease), transform var(--t-reveal) var(--ease);
+    transform: translateY(38px);
 }
 .reveal.in-view {
     opacity: 1;
     transform: translateY(0);
 }
 .reveal-stagger.in-view > * {
-    transition-delay: 0s;
+    transition-delay: calc(var(--stagger-i, 0) * 90ms);
 }
 
 /* ---------- TODO / placeholder highlight ----------
@@ -297,6 +307,11 @@ html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
     height: 100%;
     object-fit: cover;
     transition: opacity var(--t-theme) var(--ease);
+    animation: heroZoomIn 2.2s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+@keyframes heroZoomIn {
+    from { transform: scale(1.12); }
+    to { transform: scale(1); }
 }
 #lightImage { opacity: 1; }
 #darkImage { opacity: 0; }
@@ -315,6 +330,12 @@ html[data-theme="dark"] #darkImage { opacity: 1; }
     max-width: 760px;
     padding: 0 24px;
     color: #fff;
+    animation: heroFadeUp 1s var(--ease) both;
+    animation-delay: 0.2s;
+}
+@keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .hero-kicker {

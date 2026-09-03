@@ -80,19 +80,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /* ---------- Scroll reveal ---------- */
+    /* ---------- Scroll reveal ----------
+       The reveal transition is applied inline, not via a `.reveal { transition }`
+       CSS rule, because cards like .project-item declare their own `transition`
+       shorthand for hover/press feedback — a second shorthand from a class
+       would silently replace it rather than merge with it, which quietly broke
+       the fade/slide on every card (opacity had no transition at all, and the
+       slide-up ran at the fast hover speed instead of the reveal speed).
+       Setting it inline right before the reveal, then clearing it once the
+       transition ends, lets the reveal run at its own slower pace without
+       touching that card's normal fast hover transition afterwards. */
     const revealTargets = document.querySelectorAll('.reveal, .reveal-stagger');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('in-view');
-                if (entry.target.classList.contains('reveal-stagger')) {
-                    Array.from(entry.target.children).forEach((child, i) => {
-                        child.style.setProperty('--stagger-i', i);
-                    });
-                }
-                observer.unobserve(entry.target);
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+
+            if (el.classList.contains('reveal-stagger')) {
+                Array.from(el.children).forEach((child, i) => {
+                    child.style.setProperty('--stagger-i', i);
+                });
+                el.classList.add('in-view');
             }
+
+            if (el.classList.contains('reveal')) {
+                el.style.transitionProperty = 'opacity, transform';
+                el.style.transitionDuration = 'var(--t-reveal)';
+                el.style.transitionTimingFunction = 'var(--ease)';
+                // Wait two animation frames before actually triggering the opacity/
+                // transform change. A single reflow (e.g. reading offsetHeight) forces
+                // layout to flush but doesn't reliably force non-layout properties like
+                // opacity/transition to be committed first — the browser can still fold
+                // the "before" and "after" states into one paint and skip the transition
+                // entirely. Two rAFs guarantee a real paint happens in between.
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        el.classList.add('in-view');
+                        el.addEventListener('transitionend', () => {
+                            el.style.transitionProperty = '';
+                            el.style.transitionDuration = '';
+                            el.style.transitionTimingFunction = '';
+                        }, { once: true });
+                    });
+                });
+            } else {
+                el.classList.add('in-view');
+            }
+
+            observer.unobserve(el);
         });
     }, { threshold: 0.15 });
     revealTargets.forEach(el => observer.observe(el));
