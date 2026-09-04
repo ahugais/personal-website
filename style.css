@@ -670,7 +670,10 @@ html[data-theme="dark"] #darkImage { opacity: 1; }
     box-shadow: var(--shadow-sm);
     position: relative;
     text-align: left;
-    transition: transform 0.1s var(--ease-snap), box-shadow 0.1s var(--ease-snap), border-color 0.1s var(--ease-snap);
+    /* transform only — box-shadow's soft blur reads as gradual/slow to the
+       eye even at an identical duration to a crisp transform, which is what
+       was making the card feel laggier than the image scaling inside it. */
+    transition: transform 0.1s var(--ease-snap);
     perspective: 800px;
 }
 html[data-theme="dark"] .project-item { border-color: var(--cal-gold); }
@@ -748,7 +751,7 @@ html[data-theme="dark"] .project-item { border-color: var(--cal-gold); }
     border: 2px solid var(--cal-blue);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
-    transition: transform 0.1s var(--ease-snap), box-shadow 0.1s var(--ease-snap), border-color 0.1s var(--ease-snap);
+    transition: transform 0.1s var(--ease-snap);
 }
 html[data-theme="dark"] .course-item { border-color: var(--cal-gold); }
 @media (hover: hover) and (pointer: fine) {
