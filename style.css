@@ -178,7 +178,10 @@ section {
     transform: translateY(0);
 }
 .reveal-stagger.in-view > * {
-    transition-delay: calc(var(--stagger-i, 0) * 90ms);
+    /* Capped so a big grid (row 3+) doesn't end up waiting noticeably longer
+       than row 1 — still a ripple across the first few items, then the rest
+       settle together instead of the delay growing without limit. */
+    transition-delay: calc(min(var(--stagger-i, 0), 4) * 40ms);
 }
 
 /* ---------- TODO / placeholder highlight ----------
