@@ -220,12 +220,6 @@ section {
     backdrop-filter: blur(14px) saturate(160%);
     -webkit-backdrop-filter: blur(14px) saturate(160%);
     z-index: 1000;
-    /* Isolates the nav onto its own GPU layer so its blur doesn't have to be
-       recomputed in lockstep with the hero photo scaling behind it (that
-       combination — backdrop-filter over actively-animating content — is
-       what shows up as stutter/flicker in a fixed header). */
-    transform: translateZ(0);
-    will-change: transform;
     box-sizing: border-box;
 }
 /* A plain background gradient on a pseudo-element instead of border-image —
@@ -890,7 +884,7 @@ html[data-theme="dark"] .course-item { border-color: var(--cal-gold); }
     box-shadow: var(--shadow-lg);
     margin: 0 auto 40px;
     display: block;
-    transition: transform 0.2s var(--ease);
+    transition: transform 0.12s var(--ease);
 }
 @media (hover: hover) and (pointer: fine) {
     .project-page img:hover { transform: scale(1.015); }
