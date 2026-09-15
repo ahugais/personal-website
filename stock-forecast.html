@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <!-- Google tag (gtag.js) — loaded after window "load" so it never
+         competes with the page's own content for a slow/unreliable connection -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-K0N7S106ZJ');
+        window.addEventListener('load', function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=G-K0N7S106ZJ';
+            document.head.appendChild(s);
+        });
+    </script>
+
+    <link rel="icon" type="image/x-icon" href="favcon.ico">
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Forecast Project - Ahmed Hugais</title>
+</head>
+<body>
+
+    <nav class="navigation">
+        <input type="checkbox" id="hamburger-toggle" class="hamburger-toggle">
+        <a href="index.html#Home" class="brand-name">Ahmed Hugais</a>
+        <div class="nav-links">
+            <a href="index.html#About">About</a>
+            <a href="index.html#Experience">Experience</a>
+            <a href="index.html#Skills">Skills</a>
+            <a href="index.html#Projects">Projects</a>
+            <a href="index.html#Education">Education</a>
+            <a href="index.html#Contact">Contact</a>
+            <span class="theme-toggle" id="theme-toggle" title="Toggle light / dark mode">
+                <svg class="icon-moon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.455 2.004a.75.75 0 01.26.77 7 7 0 009.958 7.967.75.75 0 011.067.853A8.5 8.5 0 116.647 1.921a.75.75 0 01.808.083z" clip-rule="evenodd"/></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+            </span>
+        </div>
+        <label for="hamburger-toggle" class="hamburger-icon"><span></span><span></span><span></span></label>
+    </nav>
+
+    <div class="project-page">
+        <a href="index.html#Projects" class="back-link"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Back to Projects</a>
+        <p class="project-page-tags"><span class="project-tag">Python</span><span class="project-tag">Machine Learning</span></p>
+        <h1>Stock Forecast</h1>
+
+        <!-- No screenshot yet — drop one in as images/stock-forecast.png, then delete "todo-card" -->
+        <div class="todo-card" style="border-radius: var(--radius-lg); margin-bottom: 40px; aspect-ratio: 16/10; display:flex; align-items:center; justify-content:center;">
+            <img src="images/stock-forecast.png" alt="Stock Forecast" style="max-width:100%; max-height:100%; border-radius: var(--radius-lg);">
+        </div>
+
+        <p class="project-body">I've always wondered whether you could actually predict where a stock is headed just by looking at its own price history, so I built this to test that out. You type in any ticker, pick a date range, and the app pulls the real price data, builds a handful of indicators from it, and trains a model to guess what happens next, both in dollars and in which direction it's likely to move.
+
+The interesting part isn't really the "AI," it's the bookkeeping around it. Before the app ever shows you a forecast, it quietly tests itself against the stock's own past: pretending it doesn't know what happened, guessing anyway, then checking how close it got. That's the part I care most about, honestly. It's easy to build something that looks impressive on the surface. It's a lot harder to build something that's upfront about how well it actually works, and I wanted this to be the second kind.
+
+So it is upfront. If a model's guesses aren't meaningfully better than a coin flip on a given stock, the app tells you flat out instead of quietly showing you a confident-looking chart anyway. The forecast line itself comes with a shaded range around it that widens the further out you look, since a guess about three weeks from now deserves a lot less trust than a guess about tomorrow.
+
+Everything's built in Python: pandas and scikit-learn do the heavy lifting on the modeling side, Plotly draws the charts, and Streamlit turns the whole thing into a real website, so you can just open the link and try it on whatever stock you're curious about.</p>
+
+        <p style="margin-top: 8px;">
+            <a href="https://stock-prediction-platform-hugais.streamlit.app/" target="_blank" rel="noopener" class="btn btn-outline" style="color: var(--text); border-color: var(--border);">
+                <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg> View Live Demo
+            </a>
+        </p>
+    </div>
+
+    <button id="back-to-top" title="Back to top"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+    <script src="style.js"></script>
+</body>
+</html>
