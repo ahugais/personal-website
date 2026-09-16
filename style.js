@@ -135,49 +135,125 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ---------- Scroll progress bar (draggable) ----------
        Pointer Events unify mouse, touch, and pen behind one API, and
        setPointerCapture keeps pointermove firing on the track even if the
-       finger/cursor drifts above or below the thin bar mid-drag. */
+       finger/cursor drifts above or below the thin bar mid-drag.
+
+       The bar isn't a plain proportion of total page height — the nav links
+       are spread evenly across the bar, but sections aren't evenly tall, so
+       that would leave the bar visibly under the wrong link most of the
+       time. Instead it's calibrated: for each section, we record the scroll
+       position where it starts and the x-position of its nav link, then
+       piecewise-linearly interpolate between those calibration points. The
+       result stays continuous (no jump-then-hold like a discrete scrollspy)
+       while still lining up with the right link the instant that section's
+       top reaches the nav bar. Pages without matching in-page sections
+       (project detail pages) fall back to plain scroll-fraction. */
     const scrollProgress = document.getElementById('scroll-progress');
     const scrollTrack = document.getElementById('scroll-progress-track');
     if (scrollProgress && scrollTrack) {
         const getScrollable = () => document.documentElement.scrollHeight - window.innerHeight;
 
-        const updateScrollProgress = () => {
+        let calibration = [];
+        const buildCalibration = () => {
+            const trackRect = scrollTrack.getBoundingClientRect();
+            if (trackRect.width === 0) return [];
+            // Clamp each point to the actually-reachable scroll range: the last
+            // section can start further down than the page can ever scroll to
+            // (there's no content below it to keep scrolling through), so its
+            // raw offsetTop overshoots max scrollY and needs to be capped —
+            // otherwise the bar undershoots the link's position at page bottom.
             const scrollable = getScrollable();
-            const pct = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
-            scrollProgress.style.transform = `scaleX(${pct})`;
+            const points = [];
+            const addPoint = (sectionId, linkEl) => {
+                const section = document.getElementById(sectionId);
+                if (!section || !linkEl) return;
+                // The link's horizontal center, not its left edge — so the bar's
+                // leading edge lines up under the middle of the word itself.
+                const linkRect = linkEl.getBoundingClientRect();
+                const center = linkRect.left + linkRect.width / 2;
+                const frac = Math.min(1, Math.max(0, (center - trackRect.left) / trackRect.width));
+                points.push({ scrollY: Math.min(section.offsetTop, scrollable), frac });
+            };
+            addPoint('Home', document.querySelector('.brand-name'));
+            ['About', 'Experience', 'Skills', 'Projects', 'Education', 'Contact'].forEach(id =>
+                addPoint(id, document.querySelector(`.nav-links a[href="#${id}"]`))
+            );
+            return points.length < 2 ? [] : points;
         };
-        updateScrollProgress();
+
+        const fracForScrollY = (y) => {
+            if (calibration.length < 2) {
+                const scrollable = getScrollable();
+                return scrollable > 0 ? y / scrollable : 0;
+            }
+            if (y <= calibration[0].scrollY) return calibration[0].frac;
+            for (let i = 0; i < calibration.length - 1; i++) {
+                const a = calibration[i], b = calibration[i + 1];
+                if (y <= b.scrollY) return a.frac + (b.frac - a.frac) * ((y - a.scrollY) / ((b.scrollY - a.scrollY) || 1));
+            }
+            return calibration[calibration.length - 1].frac;
+        };
+
+        const scrollYForFrac = (frac) => {
+            if (calibration.length < 2) return frac * getScrollable();
+            if (frac <= calibration[0].frac) return calibration[0].scrollY;
+            for (let i = 0; i < calibration.length - 1; i++) {
+                const a = calibration[i], b = calibration[i + 1];
+                if (frac <= b.frac) return a.scrollY + (b.scrollY - a.scrollY) * ((frac - a.frac) / ((b.frac - a.frac) || 1));
+            }
+            return calibration[calibration.length - 1].scrollY;
+        };
+
+        const updateScrollProgress = () => {
+            scrollProgress.style.transform = `scaleX(${Math.min(1, Math.max(0, fracForScrollY(window.scrollY)))})`;
+        };
+        const recalibrate = () => { calibration = buildCalibration(); updateScrollProgress(); };
+        recalibrate();
         window.addEventListener('scroll', updateScrollProgress);
-        window.addEventListener('resize', updateScrollProgress);
+        window.addEventListener('resize', recalibrate);
+        window.addEventListener('load', recalibrate);
 
-        const seekToClientX = (clientX) => {
+        const fracFromClientX = (clientX) => {
             const rect = scrollTrack.getBoundingClientRect();
-            const pct = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
-            // The page uses `scroll-behavior: smooth` for nav-link clicks, but that
-            // same CSS property hijacks plain scrollTo() calls too — during a drag,
-            // each pointermove queued its own smooth animation, so the page was
-            // always chasing a few frames behind the cursor. `behavior: 'instant'`
-            // opts this specific call out of that, so scrubbing tracks 1:1.
-            window.scrollTo({ top: pct * getScrollable(), left: 0, behavior: 'instant' });
-            scrollProgress.style.transform = `scaleX(${pct})`;
+            return Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
         };
 
-        let dragging = false;
+        let dragging = false, moved = false, downX = 0;
+        const MOVE_THRESHOLD = 4;
+
         scrollTrack.addEventListener('pointerdown', (e) => {
             dragging = true;
+            moved = false;
+            downX = e.clientX;
             scrollTrack.classList.add('dragging');
             scrollTrack.setPointerCapture(e.pointerId);
-            seekToClientX(e.clientX);
         });
         scrollTrack.addEventListener('pointermove', (e) => {
-            if (dragging) seekToClientX(e.clientX);
+            if (!dragging) return;
+            if (!moved && Math.abs(e.clientX - downX) > MOVE_THRESHOLD) moved = true;
+            if (!moved) return;
+            const frac = fracFromClientX(e.clientX);
+            // `behavior: 'instant'` opts out of the page's `scroll-behavior: smooth`
+            // (used for nav-link clicks) — during a drag, each pointermove would
+            // otherwise queue its own smooth animation, so the page was always
+            // chasing a few frames behind the cursor.
+            window.scrollTo({ top: scrollYForFrac(frac), left: 0, behavior: 'instant' });
+            scrollProgress.style.transform = `scaleX(${frac})`;
         });
-        const endDrag = () => {
+        const resetDrag = () => {
             dragging = false;
             scrollTrack.classList.remove('dragging');
         };
-        scrollTrack.addEventListener('pointerup', endDrag);
-        scrollTrack.addEventListener('pointercancel', endDrag);
+        scrollTrack.addEventListener('pointerup', (e) => {
+            if (!dragging) return;
+            const wasClick = !moved;
+            resetDrag();
+            // A plain click (released without dragging) animates smoothly to the
+            // clicked position instead of snapping instantly, so it reads as
+            // "jump there" rather than "teleport" — the opposite of a drag, which
+            // stays perfectly instant so it never lags behind the cursor.
+            if (wasClick) window.scrollTo({ top: scrollYForFrac(fracFromClientX(e.clientX)), left: 0, behavior: 'smooth' });
+        });
+        scrollTrack.addEventListener('pointercancel', resetDrag);
     }
 
     /* ---------- Back to top ---------- */

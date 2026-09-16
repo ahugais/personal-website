@@ -308,6 +308,9 @@ section {
     display: flex;
     align-items: center;
     gap: 4px;
+    flex: 1;
+    justify-content: space-between;
+    margin-left: 48px;
 }
 
 .nav-links a:not(.theme-toggle) {
