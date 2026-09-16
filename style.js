@@ -132,17 +132,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.15 });
     revealTargets.forEach(el => observer.observe(el));
 
-    /* ---------- Scroll progress bar ---------- */
+    /* ---------- Scroll progress bar (draggable) ----------
+       Pointer Events unify mouse, touch, and pen behind one API, and
+       setPointerCapture keeps pointermove firing on the track even if the
+       finger/cursor drifts above or below the thin bar mid-drag. */
     const scrollProgress = document.getElementById('scroll-progress');
-    if (scrollProgress) {
+    const scrollTrack = document.getElementById('scroll-progress-track');
+    if (scrollProgress && scrollTrack) {
+        const getScrollable = () => document.documentElement.scrollHeight - window.innerHeight;
+
         const updateScrollProgress = () => {
-            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollable = getScrollable();
             const pct = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
             scrollProgress.style.transform = `scaleX(${pct})`;
         };
         updateScrollProgress();
         window.addEventListener('scroll', updateScrollProgress);
         window.addEventListener('resize', updateScrollProgress);
+
+        const seekToClientX = (clientX) => {
+            const rect = scrollTrack.getBoundingClientRect();
+            const pct = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+            window.scrollTo(0, pct * getScrollable());
+            scrollProgress.style.transform = `scaleX(${pct})`;
+        };
+
+        let dragging = false;
+        scrollTrack.addEventListener('pointerdown', (e) => {
+            dragging = true;
+            scrollTrack.classList.add('dragging');
+            scrollTrack.setPointerCapture(e.pointerId);
+            seekToClientX(e.clientX);
+        });
+        scrollTrack.addEventListener('pointermove', (e) => {
+            if (dragging) seekToClientX(e.clientX);
+        });
+        const endDrag = () => {
+            dragging = false;
+            scrollTrack.classList.remove('dragging');
+        };
+        scrollTrack.addEventListener('pointerup', endDrag);
+        scrollTrack.addEventListener('pointercancel', endDrag);
     }
 
     /* ---------- Back to top ---------- */
