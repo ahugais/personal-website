@@ -153,7 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const seekToClientX = (clientX) => {
             const rect = scrollTrack.getBoundingClientRect();
             const pct = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
-            window.scrollTo(0, pct * getScrollable());
+            // The page uses `scroll-behavior: smooth` for nav-link clicks, but that
+            // same CSS property hijacks plain scrollTo() calls too — during a drag,
+            // each pointermove queued its own smooth animation, so the page was
+            // always chasing a few frames behind the cursor. `behavior: 'instant'`
+            // opts this specific call out of that, so scrubbing tracks 1:1.
+            window.scrollTo({ top: pct * getScrollable(), left: 0, behavior: 'instant' });
             scrollProgress.style.transform = `scaleX(${pct})`;
         };
 
