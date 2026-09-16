@@ -234,7 +234,8 @@ section {
 }
 /* A plain background gradient on a pseudo-element instead of border-image —
    border-image rendering alongside backdrop-filter is a known source of the
-   exact kind of flicker this nav was showing. */
+   exact kind of flicker this nav was showing. This now doubles as the
+   scroll-progress track, with .scroll-progress as the filled portion on top. */
 .navigation::after {
     content: '';
     position: absolute;
@@ -242,7 +243,21 @@ section {
     right: 0;
     bottom: 0;
     height: 3px;
+    background: var(--border);
+}
+
+/* Scroll progress fill — width is driven by JS via scaleX (not the `width`
+   property) so it stays on the compositor and tracks the scroll position
+   with zero lag, the same way a YouTube watch-progress bar does. */
+.scroll-progress {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
     background: linear-gradient(to right, var(--cal-blue), var(--cal-gold));
+    transform: scaleX(0);
+    transform-origin: left;
 }
 
 .brand-name {

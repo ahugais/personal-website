@@ -132,6 +132,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.15 });
     revealTargets.forEach(el => observer.observe(el));
 
+    /* ---------- Scroll progress bar ---------- */
+    const scrollProgress = document.getElementById('scroll-progress');
+    if (scrollProgress) {
+        const updateScrollProgress = () => {
+            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+            scrollProgress.style.transform = `scaleX(${pct})`;
+        };
+        updateScrollProgress();
+        window.addEventListener('scroll', updateScrollProgress);
+        window.addEventListener('resize', updateScrollProgress);
+    }
+
     /* ---------- Back to top ---------- */
     const backToTop = document.getElementById('back-to-top');
     if (backToTop) {
