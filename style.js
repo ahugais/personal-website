@@ -154,6 +154,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let calibration = [];
         const buildCalibration = () => {
+            // Below the nav breakpoint, the links live collapsed inside the
+            // hidden hamburger dropdown (max-height: 0, overflow: hidden) —
+            // getBoundingClientRect() on them there returns degenerate,
+            // clustered positions, not their real layout. Calibrating against
+            // that produced a calibration so broken that dragging would move
+            // once and then appear to freeze. Plain scroll-fraction (the
+            // fallback below) is what mobile should use anyway.
+            if (window.innerWidth <= 860) return [];
             const trackRect = scrollTrack.getBoundingClientRect();
             if (trackRect.width === 0) return [];
             // Clamp each point to the actually-reachable scroll range: the last
@@ -226,17 +234,25 @@ document.addEventListener('DOMContentLoaded', () => {
             downX = e.clientX;
             scrollTrack.classList.add('dragging');
             scrollTrack.setPointerCapture(e.pointerId);
+            e.preventDefault();
         });
         scrollTrack.addEventListener('pointermove', (e) => {
             if (!dragging) return;
             if (!moved && Math.abs(e.clientX - downX) > MOVE_THRESHOLD) moved = true;
             if (!moved) return;
+            e.preventDefault();
             const frac = fracFromClientX(e.clientX);
-            // `behavior: 'instant'` opts out of the page's `scroll-behavior: smooth`
-            // (used for nav-link clicks) — during a drag, each pointermove would
-            // otherwise queue its own smooth animation, so the page was always
-            // chasing a few frames behind the cursor.
-            window.scrollTo({ top: scrollYForFrac(frac), left: 0, behavior: 'instant' });
+            // Setting scrollTop directly, not window.scrollTo(), is what actually
+            // opts this out of the page's `scroll-behavior: smooth` (used for
+            // nav-link clicks) — during a drag, each pointermove would otherwise
+            // queue its own smooth animation, so the page was always chasing a few
+            // frames behind the cursor. `scrollTo({behavior:'instant'})` does the
+            // same thing on Chromium, but support for the 'instant' value lagged
+            // behind on WebKit/Safari, so it silently fell back to smooth there —
+            // direct scrollTop assignment is instant on every engine, no ambiguity.
+            const y = scrollYForFrac(frac);
+            document.documentElement.scrollTop = y;
+            document.body.scrollTop = y;
             scrollProgress.style.transform = `scaleX(${frac})`;
         });
         const resetDrag = () => {

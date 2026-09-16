@@ -242,13 +242,16 @@ section {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -8px;
-    height: 20px;
+    bottom: -10px;
+    height: 26px;
     display: flex;
     align-items: center;
     cursor: pointer;
     touch-action: none;
     -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 .scroll-progress-track::before {
     content: '';
@@ -308,9 +311,17 @@ section {
     display: flex;
     align-items: center;
     gap: 4px;
-    flex: 1;
-    justify-content: space-between;
-    margin-left: 48px;
+}
+/* Desktop only — spreading the links across the bar via flex/margin here
+   was previously unscoped, which leaked `margin-left: 48px` into the mobile
+   dropdown (a fixed-position, full-width panel) and shifted/narrowed it
+   enough to look broken. The mobile rules below never touch these. */
+@media screen and (min-width: 861px) {
+    .nav-links {
+        flex: 1;
+        justify-content: space-between;
+        margin-left: 48px;
+    }
 }
 
 .nav-links a:not(.theme-toggle) {
