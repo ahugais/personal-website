@@ -887,7 +887,7 @@ html[data-theme="dark"] .course-item { border-color: var(--cal-gold); }
 /* ---------- Contact ---------- */
 #Contact { text-align: center; padding-bottom: 140px; }
 
-/* The barely visible dot at the very bottom: my way into the Sabora console (on my laptop). */
+/* The barely visible dot at the very bottom: my way into the Sabora console. */
 .console-dot {
     display: block;
     width: 32px;
